@@ -10,8 +10,8 @@ jobs:
             cd /root/project/blog
             ls -lrt
             docker --version
-            sudo docker build -t local:static_rails_app .
-            sudo docker images
+            docker build -t local:static_rails_app .
+            docker images
             bundle exec rspec
       # - setup_remote_docker:
       #     docker_layer_caching: true
