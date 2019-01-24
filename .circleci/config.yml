@@ -28,7 +28,9 @@ jobs:
       - checkout
       - run:
           name: Deploy Over SSH
-          command: ls -lrt 
+          command: |
+            ls -lrt 
+            pwd
             #chmod 777 /root/project/blog/scripts/deploy.sh
             # chown -R ubuntu /root/project/blog/scripts/
             # chmod +x /root/project/blog/scripts/deploy.sh
