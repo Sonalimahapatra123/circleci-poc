@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           command: |
-            pwd
+            cd $CIRCLE_WORKING_DIRECTORY/blog
             ls -lrt
             docker build -t local:static_rails_app .
             docker images
