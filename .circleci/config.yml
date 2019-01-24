@@ -28,5 +28,12 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh ubuntu@3.91.173.145 /root/project/scripts/deploy.sh      
-
+            ssh ubuntu@3.91.173.145 /root/project/scripts/deploy.sh
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
