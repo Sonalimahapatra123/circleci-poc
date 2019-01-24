@@ -1,21 +1,22 @@
 version: 2
 jobs:
   build:
-    docker: 
+    docker:
+      - image: buildpack-deps:trusty 
       - image: docker
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      # - run:
-      #     command: sudo apt install zip unzip
+      - run:
+          command: sudo apt install zip unzip
       - run:
           command: |
             cd /root/project/blog
             docker build -t local:static_rails_app .
             docker run --name rubybox -it -d local:static_rails_app
-            docker exec -it rubybox sh -c "bundle install && bundle exec rspec && mkdir /root/project/own-artifact && cd /root/project/own-artifact && zip -r own_artifact.zip /root/project/blog"
-            
+            docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
+            mkdir /root/project/own-artifact && cd /root/project/own-artifact && zip -r own_artifact.zip /root/project/blog
       - store_artifacts:
           path: /root/project/own_artifact.zip
           destination: /root/project/own-artifact  
