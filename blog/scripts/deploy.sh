@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "printing"
-cd ~/circleci-poc && rm -rf usr/ && rm own_artifact.zip && wget https://$1-166982537-gh.circle-artifacts.com/0/root/project/own-artifact/own_artifact.zip && unzip own_artifact.zip
+echo $BUILD_NO
+cd ~/circleci-poc && wget https://$BUILD_NO-166982537-gh.circle-artifacts.com/0/root/project/own-artifact/own_artifact.zip && unzip own_artifact.zip
 # source ~/.bash_profile;
 # kill -9 $(lsof -i tcp:3000 -t)
 # echo 'Benchmarking $(pwd)...'
