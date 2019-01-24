@@ -14,7 +14,7 @@ jobs:
             docker run --name rubybox -it -d local:static_rails_app
             docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
             mkdir /root/project/own-artifact
-      - store_artifact:
+      - store_artifacts:
           path: /root/project/blog
           destination: /root/project/own-artifact  
       # - setup_remote_docker:
