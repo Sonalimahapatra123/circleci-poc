@@ -37,7 +37,7 @@ jobs:
             # cd /root/project/blog/scripts && ls -lrt
             # cat /root/project/blog/scripts/deploy.sh
             
-            #ssh ubuntu@3.91.173.145 /bin/bash < /root/project/blog/scripts/deploy.sh
+            ssh ubuntu@3.91.173.145 /bin/bash < /home/circleci/project/blog/scripts/deploy.sh
 workflows:
   version: 2
   workflow:
