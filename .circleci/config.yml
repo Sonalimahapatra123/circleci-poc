@@ -13,9 +13,9 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
-            docker build -t local:static_rails_app .
-            docker run --name rubybox -it -d local:static_rails_app
-            docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
+            sudo docker build -t local:static_rails_app .
+            sudo docker run --name rubybox -it -d local:static_rails_app
+            sudo docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
             mkdir /root/project/own-artifact && cd /root/project/own-artifact && zip -r own_artifact.zip /root/project/blog
       - store_artifacts:
           path: /root/project/own_artifact.zip
