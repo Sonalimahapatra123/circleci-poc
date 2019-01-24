@@ -6,7 +6,9 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker_layer_caching: true      
+          docker_layer_caching: true
+      - run:
+          command: sudo apt install zip unzip
       - run:
           command: |
             cd /root/project/blog
@@ -14,7 +16,6 @@ jobs:
             docker run --name rubybox -it -d local:static_rails_app
             docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
             mkdir /root/project/own-artifact
-            apt install zip unzip
             cd /root/project/own-artifact
             zip -r own_artifact.zip /root/project/blog
       - store_artifacts:
