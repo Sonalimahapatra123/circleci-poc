@@ -7,6 +7,8 @@ jobs:
       - checkout
       - run:
           command: |
+            cd ~/project/circleci-poc/blog
+            ls -lrt
             docker build -t local:static_rails_app .
             docker images
             bundle exec rspec
