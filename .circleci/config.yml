@@ -6,9 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
-        command: |
-          sudo docker build -t local:static_rails_app .
-          bundle exec rspec
+          command: |
+            sudo docker build -t local:static_rails_app .
+            bundle exec rspec
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
