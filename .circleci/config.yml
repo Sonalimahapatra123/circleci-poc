@@ -27,14 +27,14 @@ jobs:
     steps:
       - run:
           name: Deploy Over SSH
-          command: |
-            chmod 777 /root/project/blog/scripts/deploy.sh
+          command: ls -lrt 
+            #chmod 777 /root/project/blog/scripts/deploy.sh
             # chown -R ubuntu /root/project/blog/scripts/
             # chmod +x /root/project/blog/scripts/deploy.sh
             # cd /root/project/blog/scripts && ls -lrt
             # cat /root/project/blog/scripts/deploy.sh
             
-            ssh ubuntu@3.91.173.145 /bin/bash < /root/project/blog/scripts/deploy.sh
+            #ssh ubuntu@3.91.173.145 /bin/bash < /root/project/blog/scripts/deploy.sh
 workflows:
   version: 2
   workflow:
