@@ -11,8 +11,8 @@ jobs:
           command: |
             cd /root/project/blog
             docker build -t local:static_rails_app .
-            docker start local:static_rails_app
-            docker exec -it local:static_rails_app bundle exec rspec
+            docker run --name rubybox -it -d local:static_rails_app
+            docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
