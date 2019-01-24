@@ -17,7 +17,7 @@ jobs:
       #       docker cp rubybox:/usr/src/app/own_artifact.zip .
       # - store_artifacts:
       #     path: /root/project/own-artifact/own_artifact.zip
-          # destination: /root/project/own-artifact  
+      #     destination: /root/project/own-artifact  
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
@@ -29,14 +29,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ls -lrt 
-            pwd
-            #chmod 777 /root/project/blog/scripts/deploy.sh
-            # chown -R ubuntu /root/project/blog/scripts/
-            # chmod +x /root/project/blog/scripts/deploy.sh
-            # cd /root/project/blog/scripts && ls -lrt
-            # cat /root/project/blog/scripts/deploy.sh
-            
+            cat $CIRCLE_BUILD_NUM
             ssh ubuntu@3.91.173.145 /bin/bash < /home/circleci/project/blog/scripts/deploy.sh
 workflows:
   version: 2
