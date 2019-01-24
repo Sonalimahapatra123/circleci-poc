@@ -21,4 +21,12 @@ jobs:
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh ubuntu@3.91.173.145 /root/project/scripts/deploy.sh      
 
