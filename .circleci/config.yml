@@ -14,7 +14,7 @@ jobs:
             docker run --name rubybox -it -d local:static_rails_app
             docker exec -it rubybox sh -c "bundle install && bundle exec rspec"
             mkdir /root/project/own-artifact
-            sudo apt install zip unzip
+            apt install zip unzip
             cd /root/project/own-artifact
             zip -r own_artifact.zip /root/project/blog
       - store_artifacts:
