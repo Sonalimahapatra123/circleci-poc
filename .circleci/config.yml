@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            cat $CIRCLE_BUILD_NUM
+            echo $CIRCLE_BUILD_NUM
             ssh ubuntu@3.91.173.145 /bin/bash < /home/circleci/project/blog/scripts/deploy.sh
 workflows:
   version: 2
