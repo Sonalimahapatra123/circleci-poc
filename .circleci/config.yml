@@ -29,6 +29,9 @@ jobs:
           name: Deploy Over SSH
           command: |
             chmod +x /root/project/scripts/deploy.sh
+            cd /root/project/scripts && ls -lrt
+            cat /root/project/scripts/deploy.sh
+
             ssh ubuntu@3.91.173.145 /bin/bash < /root/project/scripts/deploy.sh
 workflows:
   version: 2
