@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "printing"
-export CURRENT_BUILD_NO =  expr $BUILD_NO - 1
+CURRENT_BUILD_NO=$(expr $BUILD_NO - 1)
 echo $CURRENT_BUILD_NO
 cd /home/ubuntu/circleci-poc && wget https://$CURRENT_BUILD_NO-166982537-gh.circle-artifacts.com/0/root/project/own-artifact && unzip own_artifact.zip
 source ~/.bash_profile;

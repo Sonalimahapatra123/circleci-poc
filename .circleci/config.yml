@@ -10,14 +10,14 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
-            docker build -t local:static_rails_app .
-            docker run --name rubybox -it -d local:static_rails_app
-            docker exec -it rubybox sh -c "bundle install && bundle exec rspec  && zip -r own_artifact.zip /usr/src/app/"
-            mkdir /root/project/own-artifact && cd /root/project/own-artifact
-            docker cp rubybox:/usr/src/app/own_artifact.zip .
-      - store_artifacts:
-          path: /root/project/own-artifact/own_artifact.zip
-          destination: /root/project/own-artifact  
+      #       docker build -t local:static_rails_app .
+      #       docker run --name rubybox -it -d local:static_rails_app
+      #       docker exec -it rubybox sh -c "bundle install && bundle exec rspec  && zip -r own_artifact.zip /usr/src/app/"
+      #       mkdir /root/project/own-artifact && cd /root/project/own-artifact
+      #       docker cp rubybox:/usr/src/app/own_artifact.zip .
+      # - store_artifacts:
+      #     path: /root/project/own-artifact/own_artifact.zip
+      #     destination: /root/project/own-artifact  
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
