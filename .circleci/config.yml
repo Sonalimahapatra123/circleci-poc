@@ -9,7 +9,7 @@ jobs:
           command: |
             cd /root/project/blog
             ls -lrt
-            sudo docker --version
+            docker --version
             sudo docker build -t local:static_rails_app .
             sudo docker images
             bundle exec rspec
