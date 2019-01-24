@@ -10,6 +10,7 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
+            cd /root/project/scripts && ls -lrt
             docker build -t local:static_rails_app .
             docker run --name rubybox -it -d local:static_rails_app
             docker exec -it rubybox sh -c "bundle install && bundle exec rspec  && zip -r own_artifact.zip /usr/src/app/"
