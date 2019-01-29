@@ -9,7 +9,7 @@ wget https://$CURRENT_BUILD_NO-166982537-gh.circle-artifacts.com/0/root/project/
 # kill -9 $(lsof -i tcp:3000 -t)
 # echo 'Benchmarking $(pwd)...'
 cd /home/ubuntu/circleci-poc/usr/src/app
-sudo docker-compose up
+sudo docker-compose up -d
 # bundle install && rails s -b 0.0.0.0 -d
 
 
