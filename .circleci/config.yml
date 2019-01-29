@@ -10,20 +10,18 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
-            $(echo docker images)
-            docker rmi -f ruby_app
+            # $(echo docker images)
             docker build -t ruby_app .
-            $(echo docker images)
-      #       docker run --name rubybox -it -d ruby_app
-      #       docker exec -it rubybox sh -c "bundle install && pwd  && zip -r own_artifact.zip /usr/src/app/"
-      #       mkdir /root/project/own-artifact && cd /root/project/own-artifact
-      #       docker cp rubybox:/usr/src/app/own_artifact.zip .
-      #       docker login --username=madhantry --password=madhan@docker
-      #       docker tag ruby_app:latest madhantry/mdn-images
-      #       docker push madhantry/mdn-images
-      # - store_artifacts:
-      #     path: /root/project/own-artifact/own_artifact.zip
-      #     destination: /root/project/own-artifact  
+            docker run --name rubybox -it -d ruby_app
+            docker exec -it rubybox sh -c "bundle install && pwd  && zip -r own_artifact.zip /usr/src/app/"
+            mkdir /root/project/own-artifact && cd /root/project/own-artifact
+            docker cp rubybox:/usr/src/app/own_artifact.zip .
+            docker login --username=madhantry --password=madhan@docker
+            docker tag ruby_app:latest madhantry/mdn-images
+            docker push madhantry/mdn-images
+      - store_artifacts:
+          path: /root/project/own-artifact/own_artifact.zip
+          destination: /root/project/own-artifact  
       # - setup_remote_docker:
       #     docker_layer_caching: true
       # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
@@ -42,6 +40,6 @@ workflows:
   workflow:
     jobs:
       - build
-      # - deploy:
-      #     requires:
-      #       - build
+      - deploy:
+          requires:
+            - build
