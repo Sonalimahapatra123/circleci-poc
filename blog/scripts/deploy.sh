@@ -10,6 +10,7 @@ wget https://$CURRENT_BUILD_NO-166982537-gh.circle-artifacts.com/0/root/project/
 # echo 'Benchmarking $(pwd)...'
 cd /home/ubuntu/circleci-poc/usr/src/app
 sudo docker rmi -f madhantry/mdn-images:latest
+sudo docker pull madhantry/mdn-images:latest
 sudo docker-compose up -d
 # bundle install && rails s -b 0.0.0.0 -d
 
