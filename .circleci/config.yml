@@ -10,6 +10,7 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
+            docker rmi -f ruby_app
             docker build -t ruby_app .
             docker run --name rubybox -it -d ruby_app
             docker exec -it rubybox sh -c "bundle install && pwd  && zip -r own_artifact.zip /usr/src/app/"
