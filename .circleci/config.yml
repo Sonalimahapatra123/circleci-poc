@@ -15,7 +15,7 @@ jobs:
             docker exec -it rubybox sh -c "bundle install && echo pwd  && zip -r own_artifact.zip /usr/src/app/"
             mkdir /root/project/own-artifact && cd /root/project/own-artifact
             docker cp rubybox:/usr/src/app/own_artifact.zip .
-            docker login --username=madhantry --password=madhantry@docker
+            docker login --username=madhantry --password=madhan@docker
             docker tag ruby_app:$CIRCLE_BUILD_NUM madhantry/mdn-images
             docker push madhantry/mdn-images
       - store_artifacts:
