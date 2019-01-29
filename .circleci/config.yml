@@ -16,7 +16,7 @@ jobs:
             mkdir /root/project/own-artifact && cd /root/project/own-artifact
             docker cp rubybox:/usr/src/app/own_artifact.zip .
             docker login --username=madhantry --password=madhan@docker
-            docker tag ruby_app:$CIRCLE_BUILD_NUM madhantry/mdn-images
+            docker tag ruby_app:latest madhantry/mdn-images
             docker push madhantry/mdn-images
       - store_artifacts:
           path: /root/project/own-artifact/own_artifact.zip
