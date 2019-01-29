@@ -12,7 +12,7 @@ jobs:
             cd /root/project/blog
             docker build -t ruby_app .
             docker run --name rubybox -it -d ruby_app
-            docker exec -it rubybox sh -c "bundle install && echo pwd  && zip -r own_artifact.zip /usr/src/app/"
+            docker exec -it rubybox sh -c "bundle install && pwd  && zip -r own_artifact.zip /usr/src/app/"
             mkdir /root/project/own-artifact && cd /root/project/own-artifact
             docker cp rubybox:/usr/src/app/own_artifact.zip .
             docker login --username=madhantry --password=madhan@docker
@@ -33,7 +33,7 @@ jobs:
           name: Deploy Over SSH
           command: |
             echo $CIRCLE_BUILD_NUM
-            ssh ubuntu@34.236.245.148 /bin/bash < "docker-compose -f /home/circleci/project/blog/docker-compose.yml - up"
+            ssh ubuntu@34.236.245.148 BUILD_NO="$CIRCLE_BUILD_NUM" /bin/bash < "/home/circleci/project/blog/scripts/deploy.sh"
 workflows:
   version: 2
   workflow:
