@@ -1,0 +1,26 @@
+.idea/*
+nbproject/*
+# Ignore application configuration
+/config/application.yml
+config/database.yml
+config/mongoid.yml
+*.log
+.project
+log/
+tmp/
+db/schema.rb
+public/uploads/*
+public/dashboard_charts/*
+public/maintenance.html
+uploads/*
+monarch/*
+*.*~
+.bundle/
+vendor/bundle/
+unicorn.conf
+*.*~
+.gitmodules
+unicorn.conf
+.rvmrc
+dump.rdb
+nohup.out

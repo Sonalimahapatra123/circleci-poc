@@ -13,7 +13,7 @@ jobs:
             # $(echo docker images)
             docker build -t ruby_app .
             docker run --name rubybox -it -d ruby_app
-            docker exec -it rubybox sh -c "bundle install && pwd  && zip -r own_artifact.zip /usr/src/app/"
+            docker exec -it rubybox sh -c "bundle install && rspec  && zip -r own_artifact.zip /usr/src/app/"
             mkdir /root/project/own-artifact && cd /root/project/own-artifact
             docker cp rubybox:/usr/src/app/own_artifact.zip .
             docker login --username=madhantry --password=madhan@docker
