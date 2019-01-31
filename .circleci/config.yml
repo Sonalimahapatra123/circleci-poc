@@ -13,6 +13,7 @@ jobs:
             # $(echo docker images)
             docker build -t ruby_app .
             docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+            sleep 10
             docker exec -it db sh -c "mysql -uroot -proot -e 'create database test_blog' "
             docker run --name rubybox -it -d --link db:db ruby_app
             docker exec -it rubybox sh -c "bundle install && rake db:migrate RAILS_ENV='test' && rspec  && zip -r own_artifact.zip /usr/src/app/"
