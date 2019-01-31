@@ -15,9 +15,9 @@ describe "Comment class should be there" do
   end
 end
 
-describe "Image class should be there" do
-  it do 
-  image = Image.new
-  expect(image.nil?).to be_falsey
-  end
+# describe "Image class should be there" do
+#   it do 
+#   image = Image.new
+#   expect(image.nil?).to be_falsey
+#   end
 end
