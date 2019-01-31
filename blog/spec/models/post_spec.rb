@@ -20,4 +20,4 @@ end
 #   image = Image.new
 #   expect(image.nil?).to be_falsey
 #   end
-end
+# end
