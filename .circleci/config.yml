@@ -12,8 +12,10 @@ jobs:
             cd /root/project/blog
             # $(echo docker images)
             docker build -t ruby_app .
-            docker run --name rubybox -it -d ruby_app
-            docker exec -it rubybox sh -c "bundle install && rspec  && zip -r own_artifact.zip /usr/src/app/"
+            docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+            docker exec -it db sh -c "mysql -uroot -proot -e 'create database test_blog' "
+            docker run --name rubybox -it -d --link db:db ruby_app
+            docker exec -it rubybox sh -c "bundle install && rake db:migrate RAILS_ENV='test' && rspec  && zip -r own_artifact.zip /usr/src/app/"
             mkdir /root/project/own-artifact && cd /root/project/own-artifact
             docker cp rubybox:/usr/src/app/own_artifact.zip .
             docker login --username=madhantry --password=madhan@docker
@@ -34,7 +36,7 @@ jobs:
           name: Deploy Over SSH
           command: |
             echo $CIRCLE_BUILD_NUM
-            ssh ubuntu@34.201.56.62 BUILD_NO="$CIRCLE_BUILD_NUM" /bin/bash < "/home/circleci/project/blog/scripts/deploy.sh"
+            ssh ubuntu@18.209.211.207 BUILD_NO="$CIRCLE_BUILD_NUM" /bin/bash < "/home/circleci/project/blog/scripts/deploy.sh"
 workflows:
   version: 2
   workflow:

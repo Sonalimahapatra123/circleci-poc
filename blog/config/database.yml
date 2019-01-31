@@ -15,4 +15,4 @@ test:
   pool: 25
   username: root
   password: root
-  host: localhost  
+  host: db  
