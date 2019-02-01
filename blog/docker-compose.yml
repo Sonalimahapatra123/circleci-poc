@@ -11,7 +11,9 @@ services:
     image: "mysql:5.5.62"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-    command: bash -c "mysql -uroot -proot -e 'create database development_blog' "  
+    volumes:
+      #- ~/docker-data/mysql-data:/docker-entrypoint-initdb.d
+      - ~/docker-data/mysql-data:/var/lib/mysql  
     # ports:
     #   - "3306:3306"      
 
