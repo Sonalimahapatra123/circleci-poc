@@ -26,7 +26,7 @@ jobs:
       - run:
           command: |
             cd /root/project/blog
-            bundle install
+            bundle install --local
             ruby scripts/update_ecs_service.rb
             exit 0            
   # deploy:
