@@ -3,6 +3,7 @@ jobs:
   deploy:
     docker:
       - image: docker
+      - image: ruby:2-alpine
     steps:
       - checkout
       - setup_remote_docker:
