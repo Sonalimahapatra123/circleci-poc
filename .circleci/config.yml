@@ -18,7 +18,7 @@ jobs:
             exit 0
   deploy:
     docker:
-      - image: ruby:2.3-slim
+      - image: ruby:2.3.1-slim
     steps:
       - checkout
       - setup_remote_docker:
