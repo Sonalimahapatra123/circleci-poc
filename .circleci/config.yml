@@ -15,7 +15,7 @@ jobs:
             docker login --username=madhantry --password=madhan@docker
             docker tag madhantry/mdn-images madhantry/mdn-images:latest
             docker push madhantry/mdn-images
-
+            exit 0
   deploy:
     docker:
       - image: ruby:2-alpine
