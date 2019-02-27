@@ -1,21 +1,21 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          command: |
-            cd /root/project/blog
-            # $(echo docker images)
-            docker build -t madhantry/mdn-images:latest .
-            docker login --username=madhantry --password=madhan@docker
-            docker tag madhantry/mdn-images madhantry/mdn-images:latest
-            docker push madhantry/mdn-images
-            exit 0
+  # build:
+  #   docker:
+  #     - image: docker
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         command: |
+  #           cd /root/project/blog
+  #           # $(echo docker images)
+  #           docker build -t madhantry/mdn-images:latest .
+  #           docker login --username=madhantry --password=madhan@docker
+  #           docker tag madhantry/mdn-images madhantry/mdn-images:latest
+  #           docker push madhantry/mdn-images
+  #           exit 0
   deploy:
     docker:
       - image: ruby:2.3.1-slim
@@ -27,7 +27,8 @@ jobs:
           command: |
             sleep 60
             cd /root/project/blog
-            bundle check --path=vendor/cache || bundle install --path=vendor/cache
+            gem install bundler
+            bundle install --force
             ruby scripts/update_ecs_service.rb
             exit 0            
   # deploy:
@@ -44,9 +45,9 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - deploy
+      # - deploy:
+      #     requires:
+      #       - build
 
          
