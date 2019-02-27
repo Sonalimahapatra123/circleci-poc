@@ -18,17 +18,15 @@ jobs:
   #           exit 0
   deploy:
     docker:
-      - image: ruby:2.3.1-slim
+      - image: ruby:latest
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
           command: |
-            sleep 60
             cd /root/project/blog
-            gem install bundler
-            bundle install --force
+            bundle install
             ruby scripts/update_ecs_service.rb
             exit 0            
   # deploy:
