@@ -45,5 +45,4 @@ workflows:
     jobs:
       - deploy
       - deploy1
-          requires:
-            - deploy
+          requires: deploy
