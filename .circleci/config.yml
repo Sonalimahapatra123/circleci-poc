@@ -16,9 +16,19 @@ jobs:
             docker login --username=madhantry --password=madhan@docker
             docker tag madhantry/mdn-images madhantry/mdn-images:latest
             docker push madhantry/mdn-images
+
+  deploy1:
+    docker:
+      - image: ruby:2-alpine
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          command: |
             sleep 60
             cd /root/project/blog
-            ruby update_ecs_service.rb
+            ruby update_ecs_service.rb            
   # deploy:
   #   machine:
   #     enabled: true
@@ -34,3 +44,6 @@ workflows:
   workflow:
     jobs:
       - deploy
+      - deploy1
+          requires:
+            - deploy
