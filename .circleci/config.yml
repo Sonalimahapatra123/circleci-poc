@@ -27,7 +27,7 @@ jobs:
           command: |
             sleep 60
             cd /root/project/blog
-            bundle install
+            bundle check --path=vendor/cache || bundle install --path=vendor/cache
             ruby scripts/update_ecs_service.rb
             exit 0            
   # deploy:
