@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  deploy:
+  build:
     docker:
       - image: ruby:2-alpine
       - image: docker
@@ -17,7 +17,7 @@ jobs:
             docker tag madhantry/mdn-images madhantry/mdn-images:latest
             docker push madhantry/mdn-images
 
-  deploy1:
+  deploy:
     docker:
       - image: ruby:2-alpine
     steps:
@@ -43,6 +43,9 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - deploy
-      - deploy1
-          requires: deploy
+      - build
+      - deploy:
+          requires:
+            - build
+
+         
