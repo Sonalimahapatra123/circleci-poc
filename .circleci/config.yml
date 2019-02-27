@@ -26,8 +26,10 @@ jobs:
       - run:
           command: |
             sleep 60
-            cd /root/project/blog/scripts
-            ruby update_ecs_service.rb            
+            cd /root/project/blog
+            bundle install --local 
+            ruby scripts/update_ecs_service.rb
+            exit 0            
   # deploy:
   #   machine:
   #     enabled: true
