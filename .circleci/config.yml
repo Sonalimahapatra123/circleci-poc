@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  deploy:
     docker:
       - image: docker
     steps:
@@ -11,38 +11,25 @@ jobs:
           command: |
             cd /root/project/blog
             # $(echo docker images)
-            docker build -t ruby_app .
-            docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
-            sleep 10
-            docker exec -it db sh -c "mysql -uroot -proot -e 'create database test_blog' "
-            docker run --name rubybox -it -d --link db:db ruby_app
-            docker exec -it rubybox sh -c "bundle install && rake db:migrate RAILS_ENV='test' && rspec  && zip -r own_artifact.zip /usr/src/app/"
-            mkdir /root/project/own-artifact && cd /root/project/own-artifact
-            docker cp rubybox:/usr/src/app/own_artifact.zip .
+            docker build -t madhantry/mdn-images:latest .
             docker login --username=madhantry --password=madhan@docker
-            docker tag ruby_app:latest madhantry/mdn-images
+            docker tag madhantry/mdn-images madhantry/mdn-images:latest
             docker push madhantry/mdn-images
-      - store_artifacts:
-          path: /root/project/own-artifact/own_artifact.zip
-          destination: /root/project/own-artifact  
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
-      # - run: docker run -d -p 3000:3000 local:static_rails_app rails s -b 0.0.0.0
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - checkout
-      - run:
-          name: Deploy Over SSH
-          command: |
-            echo $CIRCLE_BUILD_NUM
-            ssh ubuntu@$SSH_HOST BUILD_NO="$CIRCLE_BUILD_NUM" /bin/bash < "/home/circleci/project/blog/scripts/deploy.sh"
+            sleep 60
+            cd /root/project/blog
+            ruby update_ecs_service.rb
+  # deploy:
+  #   machine:
+  #     enabled: true
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Deploy in AWS ECS Fargate
+  #         command: |
+  #           cd /home/circleci/project/blog/scripts
+  #           ruby update_ecs_service.rb
 workflows:
   version: 2
   workflow:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - deploy

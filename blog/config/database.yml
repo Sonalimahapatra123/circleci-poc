@@ -6,7 +6,7 @@ development:
   pool: 25
   username: root
   password: root
-  host: db
+  host: db.local
 test:
   adapter: mysql2
   encoding: utf8
@@ -15,4 +15,4 @@ test:
   pool: 25
   username: root
   password: root
-  host: db  
+  host: db.local  

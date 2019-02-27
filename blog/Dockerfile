@@ -5,4 +5,5 @@ RUN apt-get install -y zip
 COPY . /usr/src/app/
 COPY Gemfile* /usr/src/app/
 WORKDIR /usr/src/app
-RUN bundle install
+RUN bundle install --local
+CMD ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
