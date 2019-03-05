@@ -736,6 +736,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv2 (1.0.1)
     aws-sigv4 (1.0.3)
+    brakeman (4.4.0)
     builder (3.2.2)
     byebug (9.0.5)
     code_analyzer (0.4.8)
@@ -890,6 +891,7 @@ PLATFORMS
 
 DEPENDENCIES
   aws-sdk (~> 3.0, >= 3.0.1)
+  brakeman
   byebug
   coffee-rails (~> 4.2)
   jbuilder (~> 2.5)
