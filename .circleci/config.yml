@@ -26,11 +26,11 @@ jobs:
             # $(echo docker images)
             # To run rspec inside container
             docker build -t madhantry/mdn-images:latest .
-            docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+            docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
             sleep 10
-            docker exec -it db sh -c "mysql -uroot -proot -e 'create database test_blog' "
-            docker run --name rubybox -it -d --link db:db madhantry/mdn-images:latest
-            docker exec -it rubybox sh -c "echo 127.0.0.1 db.local >> /etc/hosts"
+            docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
+            docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
+            #docker exec -it rubybox sh -c "echo 127.0.0.1 db.local >> /etc/hosts"
             docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
 
             #docker build -t madhantry/mdn-images:latest .
