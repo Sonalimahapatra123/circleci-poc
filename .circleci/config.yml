@@ -1,35 +1,6 @@
 version: 2
 jobs:
-  code_quality_check:
-    docker:
-      - image: ruby:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          command: |
-            cd /root/project/blog
-            bundle install --local
-            bundle exec rails_best_practices .
-            bundle exec brakeman
-  # build:
-  #   docker:
-  #     - image: docker
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         docker_layer_caching: true
-  #     - run:
-  #         command: |
-  #           cd /root/project/blog
-  #           # $(echo docker images)
-  #           docker build -t madhantry/mdn-images:latest .
-  #           docker login --username=madhantry --password=madhan@docker
-  #           docker tag madhantry/mdn-images madhantry/mdn-images:latest
-  #           docker push madhantry/mdn-images
-  #           exit 0
-  # deploy:
+  # security_and_code_quality_check:
   #   docker:
   #     - image: ruby:latest
   #   steps:
@@ -40,25 +11,56 @@ jobs:
   #         command: |
   #           cd /root/project/blog
   #           bundle install --local
-  #           ruby scripts/update_ecs_service.rb
-  #           exit 0            
+  #           bundle exec rails_best_practices .
+  #           bundle exec brakeman
+  build:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          command: |
+            cd /root/project/blog
+            # $(echo docker images)
+            # To run rspec inside container
+            docker build -t madhantry/mdn-images:latest .
+            docker run -d --name db -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+            sleep 10
+            docker exec -it db sh -c "mysql -uroot -proot -e 'create database test_blog' "
+            docker run --name rubybox -it -d --link db:db madhantry/mdn-images:latest
+            docker exec -it rubybox sh -c "echo 127.0.0.1 db.local >> /etc/hosts"
+            docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
+
+            #docker build -t madhantry/mdn-images:latest .
+            # docker login --username=madhantry --password=madhan@docker
+            # docker tag madhantry/mdn-images madhantry/mdn-images:latest
+            # docker push madhantry/mdn-images
+            exit 0
   # deploy:
-  #   machine:
-  #     enabled: true
+  #   docker:
+  #     - image: ruby:latest
   #   steps:
   #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
   #     - run:
   #         name: Deploy in AWS ECS Fargate
   #         command: |
-  #           cd /home/circleci/project/blog/scripts
-  #           ruby update_ecs_service.rb
+  #           cd /root/project/blog
+  #           bundle install --local
+  #           ruby scripts/update_ecs_service.rb
+  #           exit 0
 workflows:
   version: 2
   workflow:
     jobs:
-      - code_quality_check
+      # - security_and_code_quality_check
+      # - build:
+      #     requires:
+      #       - security_and_code_quality_check
       # - deploy:
       #     requires:
       #       - build
-
-         
+      - build
