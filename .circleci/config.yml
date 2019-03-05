@@ -1,18 +1,18 @@
 version: 2
 jobs:
-  # security_and_code_quality_check:
-  #   docker:
-  #     - image: ruby:latest
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         docker_layer_caching: true
-  #     - run:
-  #         command: |
-  #           cd /root/project/blog
-  #           bundle install --local
-  #           bundle exec rails_best_practices .
-  #           bundle exec brakeman
+  security_and_code_quality_check:
+    docker:
+      - image: ruby:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          command: |
+            cd /root/project/blog
+            bundle install --local
+            bundle exec rails_best_practices .
+            bundle exec brakeman
   build:
     docker:
       - image: docker
@@ -30,37 +30,34 @@ jobs:
             sleep 10
             docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
             docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
-            #docker exec -it rubybox sh -c "echo 127.0.0.1 db.local >> /etc/hosts"
             docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
 
-            #docker build -t madhantry/mdn-images:latest .
-            # docker login --username=madhantry --password=madhan@docker
-            # docker tag madhantry/mdn-images madhantry/mdn-images:latest
-            # docker push madhantry/mdn-images
+            docker login --username=madhantry --password=madhan@docker
+            docker tag madhantry/mdn-images madhantry/mdn-images:latest
+            docker push madhantry/mdn-images
             exit 0
-  # deploy:
-  #   docker:
-  #     - image: ruby:latest
-  #   steps:
-  #     - checkout
-  #     - setup_remote_docker:
-  #         docker_layer_caching: true
-  #     - run:
-  #         name: Deploy in AWS ECS Fargate
-  #         command: |
-  #           cd /root/project/blog
-  #           bundle install --local
-  #           ruby scripts/update_ecs_service.rb
-  #           exit 0
+  deploy:
+    docker:
+      - image: ruby:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Deploy in AWS ECS Fargate
+          command: |
+            cd /root/project/blog
+            bundle install --local
+            ruby scripts/update_ecs_service.rb
+            exit 0
 workflows:
   version: 2
   workflow:
     jobs:
-      # - security_and_code_quality_check
-      # - build:
-      #     requires:
-      #       - security_and_code_quality_check
-      # - deploy:
-      #     requires:
-      #       - build
-      - build
+      - security_and_code_quality_check
+      - build:
+          requires:
+            - security_and_code_quality_check
+      - deploy:
+          requires:
+            - build
