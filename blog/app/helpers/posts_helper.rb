@@ -1,2 +1,2 @@
-module PostsHelper
-end
+# module PostsHelper
+# end

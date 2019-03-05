@@ -1,5 +1,17 @@
 version: 2
 jobs:
+  code_quality_check:
+    docker:
+      - image: ruby:latest
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          command: |
+            cd /root/project/blog
+            bundle install --local
+            bundle exec rails_best_practices .
   # build:
   #   docker:
   #     - image: docker
@@ -16,19 +28,19 @@ jobs:
   #           docker tag madhantry/mdn-images madhantry/mdn-images:latest
   #           docker push madhantry/mdn-images
   #           exit 0
-  deploy:
-    docker:
-      - image: ruby:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          command: |
-            cd /root/project/blog
-            bundle install --local
-            ruby scripts/update_ecs_service.rb
-            exit 0            
+  # deploy:
+  #   docker:
+  #     - image: ruby:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         command: |
+  #           cd /root/project/blog
+  #           bundle install --local
+  #           ruby scripts/update_ecs_service.rb
+  #           exit 0            
   # deploy:
   #   machine:
   #     enabled: true
@@ -43,7 +55,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - deploy
+      - code_quality_check
       # - deploy:
       #     requires:
       #       - build

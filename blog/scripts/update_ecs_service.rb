@@ -3,7 +3,6 @@ require 'base64'
 class UpdateEcsService
   def initialize
     Aws.config.update({region: 'us-east-1',credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_DEV_OPS_OWN_ACCOUNT']}","#{ENV['AWS_SECRET_KEY_DEV_OPS_OWN_ACCOUNT']}")})
-    
     @ecs = Aws::ECS::Client.new
     @service_discovery = Aws::ServiceDiscovery::Client.new
     @discovery_info = nil
@@ -170,12 +169,12 @@ class UpdateEcsService
         maximum_percent: 200,
         minimum_healthy_percent: 100,
       },
-      service_registries: [ 
-        { 
+      service_registries: [
+        {
            container_name: "db",
            registry_arn: "#{service_discovery_arn}"
         }
-     ],    
+     ],
       network_configuration: {
         awsvpc_configuration: {
           subnets: ["subnet-021d51d7a525615ac"], # required
@@ -187,8 +186,8 @@ class UpdateEcsService
       deployment_controller: {
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
-    })    
-  end 
+    })
+  end
 
 
   def create_ecs_app_service
@@ -213,7 +212,7 @@ class UpdateEcsService
       deployment_controller: {
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
-    })    
+    })
   end
 
   def run_app_migration_service
@@ -238,7 +237,7 @@ class UpdateEcsService
       deployment_controller: {
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
-    })      
+    })
   end
 
   def run_db_creation_service
@@ -263,8 +262,8 @@ class UpdateEcsService
       deployment_controller: {
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
-    })      
-  end 
+    })
+  end
 
   def update_ecs_app_service
     @ecs.update_service({
@@ -285,7 +284,7 @@ class UpdateEcsService
     },
    force_new_deployment: true
     })
-  end 
+  end
 
   def find_latest_application_task_definition
     @ecs.list_task_definitions({family_prefix: "rapp", status: "ACTIVE",sort: "DESC",max_results: 1}) #result will be array
@@ -298,7 +297,7 @@ class UpdateEcsService
 
   def get_cluster
     @ecs.list_clusters.cluster_arns.first
-  end   
+  end
 
   def get_list_of_task_definition
     @ecs.list_task_definitions
@@ -315,7 +314,7 @@ class UpdateEcsService
 
   def check_service_is_available?(service_name)
     list_services.first.service_arns.include?("arn:aws:ecs:us-east-1:546124439885:service/#{service_name}")
-  end   
+  end
 
   def create_db_service_discovery(vpc_id,given_name)
     created_name_space_info = create_namespace(vpc_id,given_name)
@@ -351,7 +350,7 @@ class UpdateEcsService
       # creator_request_id: "ResourceId",
       description: "Using automation",
       vpc: "#{vpc_id}", # required
-    })    
+    })
   end
 
   def get_service_discovery_name_space(given_name)
@@ -367,9 +366,9 @@ class UpdateEcsService
     db_discovery_info = get_service_discovery_name_space("local")
     create_db_service_discovery("vpc-03de357ab424239d0","local") if db_discovery_info.nil?
     if !check_service_is_available?("db")
-      create_db_task_definition 
+      create_db_task_definition
       create_ecs_service_for_db(get_existing_service_discovery_arn("db"))
-    end  
+    end
     sleep 10
     if check_service_is_available?("app")
       puts "updatinggg"
@@ -383,8 +382,7 @@ class UpdateEcsService
       create_ecs_app_service
       run_app_migration_service
     end
-  end  
+  end
 end
-
 ecs = UpdateEcsService.new
 ecs.do_deploy
