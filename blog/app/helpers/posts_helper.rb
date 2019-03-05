@@ -1,2 +1,3 @@
-# module PostsHelper
-# end
+module PostsHelper
+  puts "Posts helper"
+end

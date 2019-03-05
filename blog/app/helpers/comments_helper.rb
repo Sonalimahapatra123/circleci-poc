@@ -1,2 +1,3 @@
-# module CommentsHelper
-# end
+module CommentsHelper
+  puts "Comments Helper"	
+end
