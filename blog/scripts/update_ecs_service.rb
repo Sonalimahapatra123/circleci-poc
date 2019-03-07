@@ -238,6 +238,16 @@ class UpdateEcsService
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
     })
+    terminate_condition_check("db_migrate")
+  end
+
+  def terminate_condition_check(service_name)
+    app_task_arn = list_running_tasks_for_given_service("#{service_name}","RUNNING").task_arns.first
+    unless app_task_arn.nil?
+      describe_running_tasks(app_task_arn.split(":task/")[1],"#{service_name}")
+    else
+      terminate_condition_check(service_name)
+    end
   end
 
   def run_db_creation_service
@@ -263,6 +273,7 @@ class UpdateEcsService
         type: "ECS", # required, accepts ECS, CODE_DEPLOY
       }
     })
+    terminate_condition_check("db_create")
   end
 
   def update_ecs_app_service
@@ -362,26 +373,57 @@ class UpdateEcsService
   end
 
   def do_deploy
-    run_db_creation_service if !check_service_is_available?("db_create")
     db_discovery_info = get_service_discovery_name_space("local")
     create_db_service_discovery("vpc-03de357ab424239d0","local") if db_discovery_info.nil?
     if !check_service_is_available?("db")
       create_db_task_definition
       create_ecs_service_for_db(get_existing_service_discovery_arn("db"))
     end
-    sleep 10
+    run_db_creation_service if !check_service_is_available?("db_create")
+
+    # sleep 10
     if check_service_is_available?("app")
-      puts "updatinggg"
+      run_app_migration_service if !check_service_is_available?("db_migrate")
       create_app_task_definition
       update_ecs_app_service
-      run_app_migration_service if !check_service_is_available?("db_migrate")
-      sleep 30
     else
-      puts "creating new "
+      run_app_migration_service
       create_app_task_definition
       create_ecs_app_service
-      run_app_migration_service
     end
+  end
+
+  def list_running_tasks_for_given_service(service_name,desired_status)
+    @ecs.list_tasks(
+      {
+        cluster: "mdn-cluster",
+        max_results: 1,
+        service_name: "#{service_name}",
+        desired_status: "#{desired_status}", # accepts RUNNING, PENDING, STOPPED
+        launch_type: "FARGATE", # accepts EC2, FARGATE
+      }
+    )
+  end
+
+  def describe_running_tasks(task_id,service_name)
+    running_tasks = @ecs.describe_tasks({
+      cluster: "mdn-cluster",
+      tasks: ["#{task_id}"] # required
+      })
+    if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && running_tasks.tasks.first.containers.first.last_status == "RUNNING")
+      delete_service(service_name)
+    else
+      describe_running_tasks(task_id,service_name)
+    end
+  end
+
+  def delete_service(service_name)
+    @ecs.delete_service(
+      {
+          cluster: "mdn-cluster",
+          service: "#{service_name}", # required
+          force: true,
+      })
   end
 end
 ecs = UpdateEcsService.new
