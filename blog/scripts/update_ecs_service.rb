@@ -410,7 +410,7 @@ class UpdateEcsService
       cluster: "mdn-cluster",
       tasks: ["#{task_id}"] # required
       })
-    if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && running_tasks.tasks.first.containers.first.last_status == "RUNNING")
+    if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && ["RUNNING","STOPPED"].include?("#{running_tasks.tasks.first.containers.first.last_status}")
       delete_service(service_name)
     else
       sleep 90
