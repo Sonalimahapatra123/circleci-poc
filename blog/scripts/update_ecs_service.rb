@@ -246,6 +246,7 @@ class UpdateEcsService
     unless app_task_arn.nil?
       describe_running_tasks(app_task_arn.split(":task/")[1],"#{service_name}")
     else
+      sleep 90
       terminate_condition_check(service_name)
     end
   end
