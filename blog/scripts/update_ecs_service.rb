@@ -413,6 +413,7 @@ class UpdateEcsService
     if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && running_tasks.tasks.first.containers.first.last_status == "RUNNING")
       delete_service(service_name)
     else
+      sleep 90
       describe_running_tasks(task_id,service_name)
     end
   end
