@@ -13,6 +13,7 @@ jobs:
             bundle install --local
             bundle exec rails_best_practices .
             bundle exec brakeman
+            exit 0
   build:
     docker:
       - image: docker
