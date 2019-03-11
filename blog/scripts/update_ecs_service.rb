@@ -242,11 +242,15 @@ class UpdateEcsService
   end
 
   def terminate_condition_check(service_name)
-    app_task_arn = list_running_tasks_for_given_service("#{service_name}","RUNNING").task_arns.first
-    unless app_task_arn.nil?
-      describe_running_tasks(app_task_arn.split(":task/")[1],"#{service_name}")
-    else
-      sleep 90
+    begin
+      app_task_arn = list_running_tasks_for_given_service("#{service_name}","RUNNING").task_arns.first
+      unless app_task_arn.nil?
+        describe_running_tasks(app_task_arn.split(":task/")[1],"#{service_name}")
+      else
+        terminate_condition_check(service_name)
+      end
+    rescue StandardError => e
+      puts "Rescue portion, exact error is #{e.message}"
       terminate_condition_check(service_name)
     end
   end
@@ -407,14 +411,18 @@ class UpdateEcsService
   end
 
   def describe_running_tasks(task_id,service_name)
-    running_tasks = @ecs.describe_tasks({
+    begin
+      running_tasks = @ecs.describe_tasks({
       cluster: "mdn-cluster",
       tasks: ["#{task_id}"] # required
       })
-    if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && ["RUNNING","STOPPED"].include?("#{running_tasks.tasks.first.containers.first.last_status}"))
-      delete_service(service_name)
-    else
-      sleep 90
+      if (running_tasks.tasks.first.containers.first.name == "#{service_name}" && ["RUNNING","STOPPED"].include?("#{running_tasks.tasks.first.containers.first.last_status}"))
+        delete_service(service_name)
+      else
+        describe_running_tasks(task_id,service_name)
+      end
+    rescue StandardError => e
+      puts "Rescue portion, exact error is #{e.message}"
       describe_running_tasks(task_id,service_name)
     end
   end
