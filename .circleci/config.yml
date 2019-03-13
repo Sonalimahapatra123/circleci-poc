@@ -11,9 +11,9 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
-             cd /root/project/blog && 
-             bundle install --local && 
-             bundle exec rails_best_practices . &&
+             cd /root/project/blog 
+             bundle install --local 
+             bundle exec rails_best_practices .
              bundle exec brakeman
              ) | tee -a  ~/cmd_full_output
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
@@ -27,8 +27,9 @@ jobs:
   #         docker_layer_caching: true
   #     - run:
   #         command: |
-  #           cd /root/project/blog
-  #           # $(echo docker images)
+  #           echo -e "======== BUILD LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
+  #           (
+  #           cd /root/project/blog 
   #           # To run rspec inside container
   #           docker build -t madhantry/mdn-images:latest .
   #           docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
