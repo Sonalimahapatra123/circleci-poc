@@ -18,62 +18,64 @@ jobs:
              ) | tee -a  ~/cmd_full_output
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
             curl -v -X POST -T ~/cmd_full_output $SUMOLOGIC_END_POINT_FOR_CI_LOG
+            curl https://circleci.com/api/v1.1/project/github/nish-mdn/circleci-poc/$CIRCLE_BUILD_NUM > build_log.txt
+            curl -v -X POST -T build_log.txt $SUMOLOGIC_END_POINT_FOR_CI_LOG
             exit 0
-  build:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          command: |
-            echo -e "======== BUILD LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
-            (
-            cd /root/project/blog 
-            # To run rspec inside container
-            docker build -t madhantry/mdn-images:latest .
-            docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
-            sleep 10
-            docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
-            docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
-            docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
+  # build:
+  #   docker:
+  #     - image: docker
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         command: |
+  #           echo -e "======== BUILD LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
+  #           (
+  #           cd /root/project/blog 
+  #           # To run rspec inside container
+  #           docker build -t madhantry/mdn-images:latest .
+  #           docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+  #           sleep 10
+  #           docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
+  #           docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
+  #           docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
 
-            docker login --username=madhantry --password=madhan@docker
-            docker tag madhantry/mdn-images madhantry/mdn-images:latest
-            docker push madhantry/mdn-images
-            ) | tee -a  ~/cmd_full_output
-            echo -e "======== BUILD LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
-            apk update && apk add curl curl-dev bash
-            curl -v -X POST -T ~/cmd_full_output $SUMOLOGIC_END_POINT_FOR_CI_LOG            
-            exit 0
-  deploy:
-    docker:
-      - image: ruby:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Deploy in AWS ECS Fargate
-          command: |
-            echo -e "======== DEPLOYMENT LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
-            (          
-            cd /root/project/blog
-            bundle install --local
-            ruby scripts/update_ecs_service.rb
-            ) | tee -a  ~/cmd_full_output
-            echo -e "======== DEPLOYMENT LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
-            curl -v -X POST -T ~/cmd_full_output $SUMOLOGIC_END_POINT_FOR_CI_LOG            
-            exit 0
+  #           docker login --username=madhantry --password=madhan@docker
+  #           docker tag madhantry/mdn-images madhantry/mdn-images:latest
+  #           docker push madhantry/mdn-images
+  #           ) | tee -a  ~/cmd_full_output
+  #           echo -e "======== BUILD LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
+  #           apk update && apk add curl curl-dev bash
+  #           curl -v -X POST -T ~/cmd_full_output $SUMOLOGIC_END_POINT_FOR_CI_LOG            
+  #           exit 0
+  # deploy:
+  #   docker:
+  #     - image: ruby:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: Deploy in AWS ECS Fargate
+  #         command: |
+  #           echo -e "======== DEPLOYMENT LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
+  #           (          
+  #           cd /root/project/blog
+  #           bundle install --local
+  #           ruby scripts/update_ecs_service.rb
+  #           ) | tee -a  ~/cmd_full_output
+  #           echo -e "======== DEPLOYMENT LOG ENDED ================== \n" | tee -a  ~/cmd_full_output
+  #           curl -v -X POST -T ~/cmd_full_output $SUMOLOGIC_END_POINT_FOR_CI_LOG            
+  #           exit 0
 workflows:
   version: 2
   workflow:
     jobs:
       - security_and_code_quality_check
-      - build:
-          requires:
-            - security_and_code_quality_check
-      - deploy:
-          requires:
-            - build
+      # - build:
+      #     requires:
+      #       - security_and_code_quality_check
+      # - deploy:
+      #     requires:
+      #       - build
