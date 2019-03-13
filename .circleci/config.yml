@@ -9,10 +9,11 @@ jobs:
           docker_layer_caching: true
       - run:
           command: |
-            cd /root/project/blog | tee -a ~/cmd_full_output
-            bundle install --local | tee -a ~/cmd_full_output
-            bundle exec rails_best_practices . | tee -a  ~/cmd_full_output
-            bundle exec brakeman | tee -a  ~/cmd_full_output
+
+            cd /root/project/blog | tee -a ~/cmd_full_output &&
+            bundle install --local | tee -a ~/cmd_full_output && 
+            bundle exec rails_best_practices . | tee -a  ~/cmd_full_output && 
+            bundle exec brakeman | tee -a  ~/cmd_full_output &&
             exit 0
   # build:
   #   docker:
