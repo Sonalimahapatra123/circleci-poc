@@ -9,56 +9,55 @@ jobs:
           docker_layer_caching: true
       - run:
           command: |
-            cd /root/project/blog
-            bundle install --local
-            bundle exec rails_best_practices .
-            bundle exec brakeman
+            set -o pipefail && cd /root/project/blog && bundle install --local && bundle exec rails_best_practices . && bundle exec brakeman | tee ~/cmd_full_output
+            cat ~/cmd_full_output
             exit 0
-  build:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          command: |
-            cd /root/project/blog
-            # $(echo docker images)
-            # To run rspec inside container
-            docker build -t madhantry/mdn-images:latest .
-            docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
-            sleep 10
-            docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
-            docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
-            docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
+  # build:
+  #   docker:
+  #     - image: docker
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         command: |
+  #           cd /root/project/blog
+  #           # $(echo docker images)
+  #           # To run rspec inside container
+  #           docker build -t madhantry/mdn-images:latest .
+  #           docker run -d --name db.local -e MYSQL_ROOT_PASSWORD=root mysql:5.5.62
+  #           sleep 10
+  #           docker exec -it db.local sh -c "mysql -uroot -proot -e 'create database test_blog' "
+  #           docker run --name rubybox -it -d --link db.local:db.local madhantry/mdn-images:latest
+  #           docker exec -it rubybox sh -c "bundle install --local && rake db:migrate RAILS_ENV='test' && rspec"
 
-            docker login --username=madhantry --password=madhan@docker
-            docker tag madhantry/mdn-images madhantry/mdn-images:latest
-            docker push madhantry/mdn-images
-            exit 0
-  deploy:
-    docker:
-      - image: ruby:latest
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Deploy in AWS ECS Fargate
-          command: |
-            cd /root/project/blog
-            bundle install --local
-            ruby scripts/update_ecs_service.rb
-            exit 0
+  #           docker login --username=madhantry --password=madhan@docker
+  #           docker tag madhantry/mdn-images madhantry/mdn-images:latest
+  #           docker push madhantry/mdn-images
+  #           exit 0
+  # deploy:
+  #   docker:
+  #     - image: ruby:latest
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: Deploy in AWS ECS Fargate
+  #         command: |
+  #           cd /root/project/blog
+  #           bundle install --local
+  #           ruby scripts/update_ecs_service.rb
+  #           exit 0
 workflows:
   version: 2
   workflow:
     jobs:
       - security_and_code_quality_check
-      - build:
-          requires:
-            - security_and_code_quality_check
-      - deploy:
-          requires:
-            - build
+      # - security_and_code_quality_check
+      # - build:
+      #     requires:
+      #       - security_and_code_quality_check
+      # - deploy:
+      #     requires:
+      #       - build
