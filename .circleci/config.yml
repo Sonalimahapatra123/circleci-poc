@@ -12,7 +12,7 @@ jobs:
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
              cd /root/project/blog 
-             bundle install --local 
+             bundle instagggll --local 
              bundle exec rails_best_practices .
              bundle exec brakeman
              ) | tee -a  ~/cmd_full_output
@@ -23,7 +23,7 @@ jobs:
             exit 0
       - run:
           name: Sending email notification
-          command: echo -e "====== send email done"
+          command: echo -e "====== send email done JOB NAME $CIRCLE_JOB, JOB STATUS"
           when: on_fail
 
   # build:
