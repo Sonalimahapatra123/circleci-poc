@@ -14,7 +14,7 @@ jobs:
              curl -O https://bootstrap.pypa.io/get-pip.py
              python get-pip.py --user
              echo 'export PATH=/root/.local/bin' >> $BASH_ENV
-             source /root/.bash_profile
+             source ~/.bash_profile
 
              cd /root/project/blog
              $(echo pip3 --version)
