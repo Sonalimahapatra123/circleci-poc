@@ -11,7 +11,10 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
-             cd /root/project/blog 
+             cd /root/project/blog
+             $(echo pip3 --version)
+             $(echo python --version)
+             echo pip3 --version 
              bundle instagggll --local 
              bundle exec rails_best_practices .
              bundle exec brakeman
