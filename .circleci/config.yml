@@ -13,8 +13,8 @@ jobs:
             (
              curl -O https://bootstrap.pypa.io/get-pip.py
              python get-pip.py --user
-             export PATH=~/.local/bin:$PATH
-             source ~/.bash_profile
+             export PATH=/root/.local/bin:$PATH
+             source /root/.bash_profile
 
              cd /root/project/blog
              $(echo pip3 --version)
