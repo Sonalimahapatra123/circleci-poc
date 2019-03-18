@@ -15,6 +15,7 @@ jobs:
              python get-pip.py --user
              echo 'export PATH=/root/.local/bin' >> $BASH_ENV
              echo $SHELL
+             echo ls -a ~
              source ~/.bashrc
 
              cd /root/project/blog
