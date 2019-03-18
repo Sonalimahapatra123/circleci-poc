@@ -15,7 +15,7 @@ jobs:
              python get-pip.py --user
              echo 'export PATH=/root/.local/bin' >> $BASH_ENV
              echo $SHELL
-             source ~/.bash_profile
+             source ~/.bashrc
 
              cd /root/project/blog
              $(echo pip3 --version)
