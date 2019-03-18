@@ -11,8 +11,14 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
+             curl -O https://bootstrap.pypa.io/get-pip.py
+             python get-pip.py --user
+             export PATH=~/.local/bin:$PATH
+             source ~/.bash_profile
+
              cd /root/project/blog
-             #$(echo pip3 --version)
+             $(echo pip3 --version)
+
              $(echo python --version)
              echo pip3 --version 
              bundle instagggll --local 
