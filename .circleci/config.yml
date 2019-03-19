@@ -132,6 +132,7 @@ workflows:
   version: 2
   workflow:
     jobs:
+      - security_and_code_quality_check
       - build:
           requires:
             - security_and_code_quality_check
