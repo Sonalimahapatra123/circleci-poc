@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "inside sh file $CIRCLE_JOB"
-if ["$CIRCLE_JOB" == "build" ]; then
+if [ "$CIRCLE_JOB" == "build" ]; then
 	echo "inside apk"
   apk update && apk -v --update add \
                             python \
