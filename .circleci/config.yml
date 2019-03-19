@@ -11,19 +11,12 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
-             pip install awscli
-             curl -O https://bootstrap.pypa.io/get-pip.py
-             python get-pip.py --user
-             echo 'export PATH=/root/.local/bin' >> $BASH_ENV
-             echo $SHELL
-             echo ls -la ~
-             source ~/.bashrc
-
+             apt-get update && apt-get install -y awscli
+             aws configure set aws_access_key_id $AWS_ACCESS_KEY_DEV_OPS_OWN_ACCOUNT
+             aws configure set aws_secret_access_key $AWS_SECRET_KEY_DEV_OPS_OWN_ACCOUNT
+             aws configure set default.region us-east-1
+             aws sns publish --topic-arn "arn:aws:sns:us-east-1:546124439885:circleci_each_job_status" --subject "CIRCLECI JOB NAME: ${CIRCLE_JOB} STARTED"
              cd /root/project/blog
-             $(echo pip3 --version)
-
-             $(echo python --version)
-             echo pip3 --version 
              bundle instagggll --local 
              bundle exec rails_best_practices .
              bundle exec brakeman
