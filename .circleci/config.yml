@@ -15,7 +15,7 @@ jobs:
              aws configure set aws_access_key_id $AWS_ACCESS_KEY_DEV_OPS_OWN_ACCOUNT
              aws configure set aws_secret_access_key $AWS_SECRET_KEY_DEV_OPS_OWN_ACCOUNT
              aws configure set default.region us-east-1
-             aws sns publish --topic-arn "arn:aws:sns:us-east-1:546124439885:circleci_each_job_status" --subject "CIRCLECI JOB NAME: ${CIRCLE_JOB} STARTED"
+             aws sns publish --topic-arn "arn:aws:sns:us-east-1:546124439885:circleci_each_job_status" --message "CIRCLECI JOB NAME: ${CIRCLE_JOB} STARTED" --subject "CIRCLECI JOB NAME: ${CIRCLE_JOB} STARTED"
              cd /root/project/blog
              bundle instagggll --local 
              bundle exec rails_best_practices .
