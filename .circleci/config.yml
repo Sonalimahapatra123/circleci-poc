@@ -11,7 +11,7 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
              (cd /root/project/blog
-             bundle instagggurll --local 
+             bundle install --local 
              bundle exec rails_best_practices .
              bundle exec brakeman
              ) | tee -a  ~/cmd_full_output
@@ -25,9 +25,15 @@ jobs:
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh "FAILEDeeeee"
+            ./sns_notification.sh "FAILED"
           when: on_fail
-
+      - run:
+          name: Sending success email notification
+          command: |
+            chmod +x /root/project/blog/scripts/sns_notification.sh
+            cd /root/project/blog/scripts
+            ./sns_notification.sh "SUCCESS"
+          when: on_sucess
 
   #     - checkout
   #     - setup_remote_docker:
