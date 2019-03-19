@@ -1,5 +1,7 @@
 #!/bin/bash
+echo "inside sh file $CIRCLE_JOB"
 if ["$CIRCLE_JOB" == "BUILD" ]; then
+	echo "inside apk"
   apk update && apk -v --update add \
                             python \
                             py-pip \
@@ -10,7 +12,9 @@ if ["$CIRCLE_JOB" == "BUILD" ]; then
                             pip install --upgrade awscli==1.14.5 s3cmd==2.0.1 python-magic && \
                             apk -v --purge del py-pip && \
                             rm /var/cache/apk/*
-else                            
+else       
+	echo "inside apt"
+
   apt-get update && apt-get install -y awscli
 fi
 
