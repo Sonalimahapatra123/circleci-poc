@@ -25,20 +25,11 @@ jobs:
       - run:
           name: Sending email notification
           command: |
-            curl -u ${CIRCLE_API_USER_TOKEN} \
-            -d build_parameters[CIRCLE_JOB]=email_notifications \
-            https://circleci.com/api/v1.1/project/github/nish-mdn/circleci-poc/tree/ecs_deploy_with_circleci
+            chmod +x /root/project/blog/scripts/sns_notification.sh
+            bin/bash /root/project/blog/scripts/sns_notification.sh
           when: on_fail
-  email_notifications:
-    machine: true
-    steps:
-      - run:
-          command: |
-            apt-get update && apt-get install -y awscli
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_DEV_OPS_OWN_ACCOUNT
-            aws configure set aws_secret_access_key $AWS_SECRET_KEY_DEV_OPS_OWN_ACCOUNT
-            aws configure set default.region us-east-1
-            aws sns publish --topic-arn "arn:aws:sns:us-east-1:546124439885:circleci_each_job_status" --message "CIRCLECI JOB STATUS: ${CIRCLE_JOB} FAILED" --subject "CIRCLECI JOB STATUS: ${CIRCLE_JOB} FAILED"
+
+
   #     - checkout
   #     - setup_remote_docker:
   #         docker_layer_caching: true
