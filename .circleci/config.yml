@@ -24,7 +24,10 @@ jobs:
             exit 0
       - run:
           name: Sending email notification
-          command: email_notifications
+          command: |
+            curl -u ${CIRCLE_API_USER_TOKEN} \
+            -d build_parameters[CIRCLE_JOB]=email_notifications \
+            https://circleci.com/api/v1.1/project/github/nish-mdn/circleci-poc/tree/ecs_deploy_with_circleci
           when: on_fail
   email_notifications:
     machine: true
