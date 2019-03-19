@@ -27,6 +27,7 @@ jobs:
           command: email_notifications
           when: on_fail
   email_notifications:
+    build: docker
     steps:
       - run:
           command: |
