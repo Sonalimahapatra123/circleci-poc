@@ -53,7 +53,7 @@ jobs:
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh "STARTED"             
+            /bin/sh ./sns_notification.sh "STARTED"             
       - run:
           command: |
             echo -e "======== BUILD LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
