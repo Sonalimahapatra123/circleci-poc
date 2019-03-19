@@ -26,7 +26,8 @@ jobs:
           name: Sending email notification
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
-            bin/bash /root/project/blog/scripts/sns_notification.sh
+            cd /root/project/blog/scripts
+            ./sns_notification.sh
           when: on_fail
 
 
