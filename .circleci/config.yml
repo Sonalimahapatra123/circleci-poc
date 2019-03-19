@@ -25,7 +25,7 @@ jobs:
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh "FAILED"
+            ./sns_notification.sh "FAILEDeeeee"
           when: on_fail
 
 
