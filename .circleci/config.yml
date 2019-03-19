@@ -10,9 +10,7 @@ jobs:
       - run:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
-            (
-
-             cd /root/project/blog
+             (cd /root/project/blog
              bundle instagggurll --local 
              bundle exec rails_best_practices .
              bundle exec brakeman
@@ -23,11 +21,11 @@ jobs:
             curl -v -X POST -T build_log.txt $SUMOLOGIC_END_POINT_FOR_CI_LOG
             exit 0
       - run:
-          name: Sending email notification
+          name: Sending failure email notification
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh
+            ./sns_notification.sh "FAILED"
           when: on_fail
 
 
