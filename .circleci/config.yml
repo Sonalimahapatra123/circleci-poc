@@ -11,6 +11,7 @@ jobs:
           command: |
             echo -e "======== SECURITY_AND_CODE_QUALITY_CHECK LOG STARTED ================== \n" | tee -a  ~/cmd_full_output
             (
+             pip install awscli
              curl -O https://bootstrap.pypa.io/get-pip.py
              python get-pip.py --user
              echo 'export PATH=/root/.local/bin' >> $BASH_ENV
