@@ -33,7 +33,7 @@ jobs:
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
             ./sns_notification.sh "SUCCESS"
-          when: on_sucess
+          when: on_success
 
   #     - checkout
   #     - setup_remote_docker:
