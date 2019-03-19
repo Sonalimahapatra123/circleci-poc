@@ -80,14 +80,14 @@ jobs:
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh "FAILED"
+            /bin/sh ./sns_notification.sh "FAILED"
           when: on_fail
       - run:
           name: Sending success email notification
           command: |
             chmod +x /root/project/blog/scripts/sns_notification.sh
             cd /root/project/blog/scripts
-            ./sns_notification.sh "SUCCESS"
+            /bin/sh ./sns_notification.sh "SUCCESS"
           when: on_success            
   deploy:
     docker:
