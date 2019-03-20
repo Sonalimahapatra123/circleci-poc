@@ -3,8 +3,8 @@ require 'base64'
 class UpdateEcsService
   def initialize
     Aws.config.update({region: 'us-east-1',credentials: Aws::Credentials.new("#{ENV['AWS_ACCESS_KEY_DEV_OPS_OWN_ACCOUNT']}","#{ENV['AWS_SECRET_KEY_DEV_OPS_OWN_ACCOUNT']}")})
-    @ecs = Aws::ECS::Client.new
-    @service_discovery = Aws::ServiceDiscovery::Client.new(validate_params: false)
+    @ecs = Aws::ECS::Client.new(validate_params: false)
+    @service_discovery = Aws::ServiceDiscovery::Client.new
     @discovery_info = nil
   end
 
