@@ -206,7 +206,7 @@ class UpdateEcsService
         target_group_arn: "arn:aws:elasticloadbalancing:us-east-1:546124439885:targetgroup/mdn-circleci-poc-target-group/94f93f233aea2a17",
         container_name: "rapp",
         container_port: 3000,
-      },
+      }
     ],
       network_configuration: {
         awsvpc_configuration: {
@@ -303,7 +303,7 @@ class UpdateEcsService
         target_group_arn: "arn:aws:elasticloadbalancing:us-east-1:546124439885:targetgroup/mdn-circleci-poc-target-group/94f93f233aea2a17",
         container_name: "rapp",
         container_port: 3000,
-      },
+      }
     ],
     network_configuration: {
       awsvpc_configuration: {
