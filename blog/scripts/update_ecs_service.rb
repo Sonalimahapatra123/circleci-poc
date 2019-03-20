@@ -201,6 +201,13 @@ class UpdateEcsService
         maximum_percent: 200,
         minimum_healthy_percent: 100,
       },
+    load_balancers: [
+      {
+        target_group_arn: "arn:aws:elasticloadbalancing:us-east-1:546124439885:targetgroup/mdn-circleci-poc-target-group/94f93f233aea2a17",
+        container_name: "rapp",
+        container_port: 3000,
+      },
+    ],
       network_configuration: {
         awsvpc_configuration: {
           subnets: ["subnet-021d51d7a525615ac"], # required
@@ -291,6 +298,13 @@ class UpdateEcsService
       maximum_percent: 200,
       minimum_healthy_percent: 100,
     },
+    load_balancers: [
+      {
+        target_group_arn: "arn:aws:elasticloadbalancing:us-east-1:546124439885:targetgroup/mdn-circleci-poc-target-group/94f93f233aea2a17",
+        container_name: "rapp",
+        container_port: 3000,
+      },
+    ],
     network_configuration: {
       awsvpc_configuration: {
         subnets: ["subnet-021d51d7a525615ac"], # required
