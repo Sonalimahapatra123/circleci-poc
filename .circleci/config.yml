@@ -33,14 +33,11 @@ jobs:
           name: job3
           command: |
             echo "I m inside the job 3"                           
-# workflows:
-#   version: 2
-#   workflow:
-#     jobs:
-#       - security_and_code_quality_check
-#       - build:
-#           requires:
-#             - security_and_code_quality_check
-#       - deploy:
-#           requires:
-#             - build
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - job1
+      - job2
+      - job3
+
