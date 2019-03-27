@@ -1,6 +1,7 @@
 version: 2
 jobs:
   job1:
+    parallelism: 2
     docker:
       - image: docker
     steps:
@@ -11,33 +12,41 @@ jobs:
           name: job1
           command: |
             echo "I m inside the job 1"
-  job2:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: job2
           command: |
-            echo "I m inside the job 2"   
-  job3:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+            echo "I m inside the job 2"
       - run:
           name: job3
           command: |
-            echo "I m inside the job 3"                           
+            echo "I m inside the job 3"                        
+  # job2:
+  #   docker:
+  #     - image: docker
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: job2
+  #         command: |
+  #           echo "I m inside the job 2"   
+  # job3:
+  #   docker:
+  #     - image: docker
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: job3
+  #         command: |
+            # echo "I m inside the job 3"                           
 workflows:
   version: 2
   workflow:
     jobs:
       - job1
-      - job2
-      - job3
+      # - job2
+      # - job3
 
