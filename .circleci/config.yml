@@ -1,7 +1,7 @@
 version: 2
 jobs:
   job1:
-    parallelism: 2
+    parallelism: 3
     docker:
       - image: docker
     steps:
