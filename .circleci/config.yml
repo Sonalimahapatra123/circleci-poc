@@ -21,9 +21,9 @@ jobs:
             cd ~/project/blog
             bundle install --local
             bundle exec rake db:create RAILS_ENV=test && bundle exec rake db:migrate RAILS_ENV=test
-            TESTFILES=$(circleci tests glob "~/project/blog/spec/models/*.rb" | circleci tests split --timings-type=classname)
+            TESTFILES=$(circleci tests glob ~/project/blog/spec/models/*.rb | circleci tests split --timings-type=classname)
             echo "testfiles env "
-            echo $TESTFILES
+            echo ${TESTFILES}
             bundle exec rspec -- ${TESTFILES}
       # - run:
       #     name: job2
