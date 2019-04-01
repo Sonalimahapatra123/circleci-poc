@@ -12,6 +12,8 @@ jobs:
       - checkout
       # - setup_remote_docker:
       #     docker_layer_caching: true
+      - store_test_results:
+          path: test-results
       - run:
           name: job1
           command: |
@@ -19,7 +21,7 @@ jobs:
             cd ~/project/blog
             bundle install --local
             bundle exec rake db:create RAILS_ENV=test && bundle exec rake db:migrate RAILS_ENV=test
-            echo TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split)
+            echo TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split --split-by=timings)
             bundle exec rspec -- ${TESTFILES}
       # - run:
       #     name: job2
