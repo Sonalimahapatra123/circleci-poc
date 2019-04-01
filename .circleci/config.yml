@@ -11,6 +11,7 @@ jobs:
       - run:
           name: job1
           command: |
+            cd root/project/blog
             bundle install --local
             TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split)
             bundle exec rspec -- ${TESTFILES}
