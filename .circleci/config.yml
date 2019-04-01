@@ -1,7 +1,7 @@
 version: 2
 jobs:
   job1:
-    parallelism: 1
+    parallelism: 2
     docker:
       - image: ruby:latest
       - image: mysql:5.5.62
@@ -19,7 +19,7 @@ jobs:
             cd ~/project/blog
             bundle install --local
             bundle exec rake db:create RAILS_ENV=test && bundle exec rake db:migrate RAILS_ENV=test
-            TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split)
+            echo TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split)
             bundle exec rspec -- ${TESTFILES}
       # - run:
       #     name: job2
