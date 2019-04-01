@@ -12,9 +12,9 @@ jobs:
           name: job1
           command: |
             echo $CIRCLE_WORKING_DIRECTORY
-            cd root/project/blog
+            cd ~/project/blog
             bundle install --local
-            TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split)
+            TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split)
             bundle exec rspec -- ${TESTFILES}
       # - run:
       #     name: job2
