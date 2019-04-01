@@ -18,6 +18,7 @@ jobs:
             echo $CIRCLE_WORKING_DIRECTORY
             cd ~/project/blog
             bundle install --local
+            bundle exec rake db:create RAILS_ENV=test && bundle exec rake db:migrate RAILS_ENV=test
             TESTFILES=$(circleci tests glob "~/project/blog/spec/**/*.rb" | circleci tests split)
             bundle exec rspec -- ${TESTFILES}
       # - run:
