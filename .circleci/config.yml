@@ -6,11 +6,12 @@ jobs:
       - image: ruby:latest
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
+      # - setup_remote_docker:
+      #     docker_layer_caching: true
       - run:
           name: job1
           command: |
+            echo $CIRCLE_WORKING_DIRECTORY
             cd root/project/blog
             bundle install --local
             TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split)
