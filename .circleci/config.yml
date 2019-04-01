@@ -11,15 +11,16 @@ jobs:
       - run:
           name: job1
           command: |
-            echo "I m inside the job 1"
-      - run:
-          name: job2
-          command: |
-            echo "I m inside the job 2"
-      - run:
-          name: job3
-          command: |
-            echo "I m inside the job 3"                        
+            TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split --split-by=timings)
+bundle exec rspec -- ${TESTFILES}
+      # - run:
+      #     name: job2
+      #     command: |
+      #       echo "I m inside the job 2"
+      # - run:
+      #     name: job3
+      #     command: |
+      #       echo "I m inside the job 3"                        
   # job2:
   #   docker:
   #     - image: docker
