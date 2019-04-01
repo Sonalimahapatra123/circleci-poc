@@ -10,12 +10,8 @@ jobs:
           MYSQL_ROOT_USER: root  
     steps:
       - checkout
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
-      - store_test_results:
-          path: test-results
       - run:
-          name: job1
+          name: Running single job with multiple containers(parallelism example)
           command: |
             echo $CIRCLE_WORKING_DIRECTORY
             mkdir ~/project/blog/test-results
@@ -26,6 +22,8 @@ jobs:
             echo "SPLITTED TEST FILES LIST FOR THIS CONTAINER "
             echo ${TESTFILES}
             bundle exec rspec -- ${TESTFILES}
+      - store_test_results:
+          path: test-results            
       # - run:
       #     name: job2
       #     command: |
