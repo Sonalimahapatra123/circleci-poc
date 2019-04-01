@@ -4,6 +4,10 @@ jobs:
     parallelism: 3
     docker:
       - image: ruby:latest
+      - image: mysql:5.5.62
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_USER: root  
     steps:
       - checkout
       # - setup_remote_docker:
