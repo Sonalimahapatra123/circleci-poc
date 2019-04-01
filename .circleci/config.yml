@@ -18,11 +18,12 @@ jobs:
           name: job1
           command: |
             echo $CIRCLE_WORKING_DIRECTORY
+            mkdir ~/project/blog/test-results
             cd ~/project/blog
             bundle install --local
             bundle exec rake db:create RAILS_ENV=test && bundle exec rake db:migrate RAILS_ENV=test
             TESTFILES=$(circleci tests glob ~/project/blog/spec/models/*.rb | circleci tests split --timings-type=classname)
-            echo "testfiles env "
+            echo "SPLITTED TEST FILES LIST FOR THIS CONTAINER "
             echo ${TESTFILES}
             bundle exec rspec -- ${TESTFILES}
       # - run:
