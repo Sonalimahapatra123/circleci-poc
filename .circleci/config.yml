@@ -23,7 +23,7 @@ jobs:
             echo ${TESTFILES}
             bundle exec rspec -- ${TESTFILES}
       - store_test_results:
-          path: test-results            
+          path: ~/project/blog/test-results            
       # - run:
       #     name: job2
       #     command: |
