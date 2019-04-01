@@ -3,7 +3,7 @@ jobs:
   job1:
     parallelism: 3
     docker:
-      - image: docker
+      - image: ruby:latest
     steps:
       - checkout
       - setup_remote_docker:
@@ -11,7 +11,7 @@ jobs:
       - run:
           name: job1
           command: |
-            TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split --split-by=timings)
+            TESTFILES=$(circleci tests glob "/root/project/blog/spec/**/*.rb" | circleci tests split)
             bundle exec rspec -- ${TESTFILES}
       # - run:
       #     name: job2
