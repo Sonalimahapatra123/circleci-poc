@@ -39,4 +39,4 @@ phases:
       # - ansible_deploy.sh
       # - cleanup_deploy.sh
       # - env.txt
-  discard-paths: yes
+  # discard-paths: yes
