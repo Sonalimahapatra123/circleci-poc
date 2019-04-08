@@ -17,4 +17,4 @@ cd config && rm -rf !(environments|application.rb|boot.rb|schedule.rb|database.y
 cd ../
 echo $(ls)
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
-bundle install --clean && bundle package   #&& whenever --update-crontab --set environment=development
+bundle install --no-cache --path vendor/cache    #&& whenever --update-crontab --set environment=development
