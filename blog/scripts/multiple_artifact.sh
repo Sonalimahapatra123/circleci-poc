@@ -6,6 +6,8 @@ cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-unicorn
 cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-sidekiq
 cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-cron
 
+echo "all 3 folders are created"
+echo $(ls)
 # For unicorn
 cd circleci-poc-unicorn && rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_sidekiq gemfile_for_cron
 mv gemfile_for_unicorn Gemfile
