@@ -14,6 +14,9 @@ phases:
   #   commands:
   build:
     commands:
+      - echo "bundle env"
+      - echo $(bundle env)
+      - exit 143
       - echo Build started on `date`
       - echo `pwd`
       - ./blog/scripts/unicorn_artifact.sh
