@@ -21,6 +21,7 @@ echo "present dir"
 echo $(pwd)
 bundle clean && bundle package && bundle install --local #&& whenever --update-crontab --set environment=development
 echo "inspecting inside vendor gem folder"
-cd vendor/cache
+echo $(pwd)
+cd vendor
 echo $(ls -la)
 exit 0
