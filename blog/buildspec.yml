@@ -9,15 +9,16 @@ phases:
   install:
     commands:
       - echo `pwd`
-      - chmod +x blog/scripts/multiple_artifact.sh
+      - chmod +x blog/scripts/unicorn_artifact.sh blog/scripts/cron_artifact.sh blog/scripts/sidekiq_artifact.sh
   # pre_build:
   #   commands:
   build:
     commands:
       - echo Build started on `date`
       - echo `pwd`
-      - chmod +x blog/scripts/multiple_artifact.sh
-      - ./blog/scripts/multiple_artifact.sh
+      - ./blog/scripts/unicorn_artifact.sh
+      - ./blog/scripts/sidekiq_artifact.sh
+      - ./blog/scripts/cron_artifact.sh
       - echo `pwd`
       - echo `ls -la`
       - tar -zcvf $unicorn_artifactname circleci-poc-unicorn/*
