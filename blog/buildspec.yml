@@ -14,6 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo `pwd`
+      - chmod +x scripts/multiple_artifact.sh
       - ./scripts/multiple_artifact.sh
       - echo `pwd`
       - echo `ls -la`
