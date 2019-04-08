@@ -20,9 +20,9 @@ phases:
       - ./blog/scripts/multiple_artifact.sh
       - echo `pwd`
       - echo `ls -la`
-      - cd circleci-poc-unicorn && tar -zcvf $unicorn_artifactname * && cd ../
-      - cd circleci-poc-sidekiq && tar -zcvf $sidekiq_artifactname * && cd ../
-      - cd circleci-poc-cron && tar -zcvf $cron_artifactname * && cd ../
+      - tar -zcvf $unicorn_artifactname circleci-poc-unicorn/*
+      - tar -zcvf $sidekiq_artifactname circleci-poc-sidekiq/*
+      - tar -zcvf $cron_artifactname circleci-poc-cron/*
       - echo `ls -la`
       - aws s3 cp $unicorn_artifactname s3://multiple-artifacts-test-ror/ --sse
       - aws s3 cp $sidekiq_artifactname s3://multiple-artifacts-test-ror/ --sse
