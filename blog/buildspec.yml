@@ -1,7 +1,9 @@
 version: 0.2
 env:
   variables:
-    artifactname: "cync_ror"
+    unicorn_artifactname: "cync_ror_unicorn"
+    cron_artifactname: "cync_ror_cron"
+    sidekiq_artifactname: "cync_ror_sidekiq"
 
 phases:
   install:
@@ -18,40 +20,20 @@ phases:
       - ./blog/scripts/multiple_artifact.sh
       - echo `pwd`
       - echo `ls -la`
-      # - appPrefix="cync_ror_"
-      # - appVersion=$(cat version.txt )
-      # - timestamp=$(date -u '+%Y-%m-%d_%H-%M-%S_%Z')
-      # - buildID=$(echo $CODEBUILD_BUILD_ID | awk -F':' '{print $2}')
-      # - srcVer=$CODEBUILD_SOURCE_VERSION
-      # - echo $srcVer
-      # - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
-      # - indx=$(echo $CODEBUILD_SOURCE_VERSION | grep -q ^arn ; echo $?)
-      # - |
-      #   if [ "$indx" -eq 0 ]; then
-      #     srcVer=$CODEBUILD_RESOLVED_SOURCE_VERSION
-      #   fi
-      # - #|
-      #   #if [ $CODEBUILD_SOURCE_VERSION != arn* ]; then
-      #   # echo 'in'
-      #   # srcVer=$(echo "$CODEBUILD_SOURCE_VERSION")
-      #   #fi
-      # - artifactversion=$(echo $appPrefix$appVersion.$buildID.$srcVer.$timestamp)
-      # - buildversion=$(echo $appVersion.$buildID.$srcVer.$timestamp)
-      # - echo $ANSIBLE_INVENTORY > env.txt
-      # - touch version.html
-      # - echo "$buildversion"> version.html
-      # - cat version.html
-      # - mv version.html cync-base/public/
-      # - artifactname=$(echo $artifactversion.tar.gz)
-      # - envName=$(echo EnvName=$CYNC_ENV)
-      # - tar -zcvf $artifactname *
-      # - aws s3 cp $artifactname s3://$ARTIFACT_S3_BUCKET/cync/ --sse
-      # - aws s3api put-object --bucket $ARTIFACT_S3_BUCKET --key cync/$artifactname --body $artifactname  --tagging $envName
+      - cd circleci-poc-unicorn && tar -zcvf $unicorn_artifactname * && cd ../
+      - cd circleci-poc-sidekiq && tar -zcvf $sidekiq_artifactname * && cd ../
+      - cd circleci-poc-cron && tar -zcvf $cron_artifactname * && cd ../
+      - aws s3 cp $unicorn_artifactname s3://multiple-artifacts-test-ror/ --sse
+      - aws s3 cp $sidekiq_artifactname s3://multiple-artifacts-test-ror/ --sse
+      - aws s3 cp $cron_artifactname s3://multiple-artifacts-test-ror/ --sse
   post_build:
     commands:
       - echo Build completed on `date`
-artifacts:
-  files:
+# artifacts:
+#   files:
+#       - circleci-poc-unicorn/
+#       - circleci-poc-sidekiq/
+#       - circleci-poc-cron/
       # - cync-base/public/version.html
       # - appspec.yml
       # - ansible_deploy.sh
