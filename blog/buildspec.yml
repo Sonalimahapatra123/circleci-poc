@@ -7,7 +7,7 @@ phases:
   install:
     commands:
       - echo `pwd`
-      - chmod +x scripts/multiple_artifact.sh
+      - chmod +x blog/scripts/multiple_artifact.sh
   # pre_build:
   #   commands:
   build:
