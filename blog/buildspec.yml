@@ -1,0 +1,59 @@
+version: 0.2
+env:
+  variables:
+    artifactname: "cync_ror"
+
+phases:
+  # install:
+  #   commands:
+  #     - echo `pwd`
+  #     - chmod +x scripts/multiple_artifact.sh
+  # pre_build:
+  #   commands:
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo `pwd`
+      - ./scripts/multiple_artifact.sh
+      - echo `pwd`
+      - echo `ls -la`
+      # - appPrefix="cync_ror_"
+      # - appVersion=$(cat version.txt )
+      # - timestamp=$(date -u '+%Y-%m-%d_%H-%M-%S_%Z')
+      # - buildID=$(echo $CODEBUILD_BUILD_ID | awk -F':' '{print $2}')
+      # - srcVer=$CODEBUILD_SOURCE_VERSION
+      # - echo $srcVer
+      # - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      # - indx=$(echo $CODEBUILD_SOURCE_VERSION | grep -q ^arn ; echo $?)
+      # - |
+      #   if [ "$indx" -eq 0 ]; then
+      #     srcVer=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      #   fi
+      # - #|
+      #   #if [ $CODEBUILD_SOURCE_VERSION != arn* ]; then
+      #   # echo 'in'
+      #   # srcVer=$(echo "$CODEBUILD_SOURCE_VERSION")
+      #   #fi
+      # - artifactversion=$(echo $appPrefix$appVersion.$buildID.$srcVer.$timestamp)
+      # - buildversion=$(echo $appVersion.$buildID.$srcVer.$timestamp)
+      # - echo $ANSIBLE_INVENTORY > env.txt
+      # - touch version.html
+      # - echo "$buildversion"> version.html
+      # - cat version.html
+      # - mv version.html cync-base/public/
+      # - artifactname=$(echo $artifactversion.tar.gz)
+      # - envName=$(echo EnvName=$CYNC_ENV)
+      # - tar -zcvf $artifactname *
+      # - aws s3 cp $artifactname s3://$ARTIFACT_S3_BUCKET/cync/ --sse
+      # - aws s3api put-object --bucket $ARTIFACT_S3_BUCKET --key cync/$artifactname --body $artifactname  --tagging $envName
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+      # - cync-base/public/version.html
+      # - appspec.yml
+      # - ansible_deploy.sh
+      # - cleanup_deploy.sh
+      # - env.txt
+  discard-paths: yes
