@@ -23,6 +23,7 @@ phases:
       - cd circleci-poc-unicorn && tar -zcvf $unicorn_artifactname * && cd ../
       - cd circleci-poc-sidekiq && tar -zcvf $sidekiq_artifactname * && cd ../
       - cd circleci-poc-cron && tar -zcvf $cron_artifactname * && cd ../
+      - echo `ls -la`
       - aws s3 cp $unicorn_artifactname s3://multiple-artifacts-test-ror/ --sse
       - aws s3 cp $sidekiq_artifactname s3://multiple-artifacts-test-ror/ --sse
       - aws s3 cp $cron_artifactname s3://multiple-artifacts-test-ror/ --sse
