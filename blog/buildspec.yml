@@ -4,18 +4,18 @@ env:
     artifactname: "cync_ror"
 
 phases:
-  # install:
-  #   commands:
-  #     - echo `pwd`
-  #     - chmod +x scripts/multiple_artifact.sh
+  install:
+    commands:
+      - echo `pwd`
+      - chmod +x scripts/multiple_artifact.sh
   # pre_build:
   #   commands:
   build:
     commands:
       - echo Build started on `date`
       - echo `pwd`
-      - chmod +x scripts/multiple_artifact.sh
-      - ./scripts/multiple_artifact.sh
+      - chmod +x blog/scripts/multiple_artifact.sh
+      - ./blog/scripts/multiple_artifact.sh
       - echo `pwd`
       - echo `ls -la`
       # - appPrefix="cync_ror_"
