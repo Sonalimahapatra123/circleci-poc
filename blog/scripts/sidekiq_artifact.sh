@@ -12,4 +12,5 @@ cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
 echo $(cat Gemfile)
-bundle install --path vendor/cache #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle package && bundle install --local --path vendor/cache #&& bundle exec sidekiq -d -L log/sidekiq.log
+exit 0
