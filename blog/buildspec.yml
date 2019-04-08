@@ -17,7 +17,9 @@ phases:
       - echo Build started on `date`
       - echo `pwd`
       - ./blog/scripts/unicorn_artifact.sh
+      - sleep 120
       - ./blog/scripts/sidekiq_artifact.sh
+      - sleep 120
       - ./blog/scripts/cron_artifact.sh
       - echo `pwd`
       - echo `ls -la`
