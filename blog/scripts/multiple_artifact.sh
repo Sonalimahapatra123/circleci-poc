@@ -22,7 +22,7 @@ cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
 echo $(cat Gemfile)
-bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
+cd ../ && cd circleci-poc-sidekiq && bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
 
 cd ../
 #For cron
@@ -38,4 +38,4 @@ cd config && rm -rf !(environments|application.rb|boot.rb|schedule.rb|database.y
 cd ../
 echo $(ls)
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
-bundle package && bundle install --local #&& whenever --update-crontab --set environment=development
+cd ../ && cd circleci-poc-sidekiq && bundle package && bundle install --local #&& whenever --update-crontab --set environment=development
