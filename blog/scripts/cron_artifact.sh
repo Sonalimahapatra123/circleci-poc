@@ -17,5 +17,10 @@ cd config && rm -rf !(environments|application.rb|boot.rb|schedule.rb|database.y
 cd ../
 echo $(ls)
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
+echo "present dir"
+echo $(pwd)
 bundle clean && bundle package && bundle install --local #&& whenever --update-crontab --set environment=development
+echo "inspecting inside vendor gem folder"
+cd vendor/cache
+echo $(ls -la)
 exit 0
