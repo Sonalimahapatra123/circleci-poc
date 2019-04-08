@@ -20,6 +20,8 @@ mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
+echo "gem file content "
+echo $(cat Gemfile)
 bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
 
 cd ../
