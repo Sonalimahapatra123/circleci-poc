@@ -17,6 +17,8 @@ cd app && rm -rf !(workers|models)
 cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
+echo "current direc tory"
+echo $(pwd)
 echo $(cat gemfile_for_sidekiq)
 echo $(pwd)
 echo "form current"
