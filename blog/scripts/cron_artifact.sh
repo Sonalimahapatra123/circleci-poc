@@ -17,7 +17,12 @@ cd config && rm -rf !(environments|application.rb|boot.rb|schedule.rb|database.y
 cd ../
 echo $(ls)
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
-echo "present dir"
+echo "gem file content "
+echo "current direc tory"
 echo $(pwd)
+echo $(cat Gemfile)
+echo $(pwd)
+echo "form current"
+echo $(ls)
 bundle package && bundle install --gemfile ../circleci-poc-cron/Gemfile #&& whenever --update-crontab --set environment=development
 exit 0
