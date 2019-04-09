@@ -12,5 +12,5 @@ cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
 echo $(cat Gemfile)
-bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle package && bundle install --local --gemfile ../circleci-poc-sidekiq/Gemfile #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0

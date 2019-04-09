@@ -24,3 +24,4 @@ unicorn.conf
 .rvmrc
 dump.rdb
 nohup.out
+vendor/cache/
