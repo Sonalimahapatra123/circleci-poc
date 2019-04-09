@@ -12,16 +12,16 @@ echo $(ls)
 rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_unicorn gemfile_for_cron
 echo "after removal"
 echo $(ls)
-#mv gemfile_for_sidekiq Gemfile
+mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
-rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|gemfile_for_sidekiq)
+rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
 echo "current direc tory"
 echo $(pwd)
-echo $(cat gemfile_for_sidekiq)
+echo $(cat Gemfile)
 echo $(pwd)
 echo "form current"
 echo $(ls)
-bundle package && bundle install --gemfile gemfile_for_sidekiq #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle package && bundle install --gemfile ../circleci-poc-sidekiq/Gemfile #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0
