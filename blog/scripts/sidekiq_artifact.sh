@@ -23,5 +23,5 @@ echo $(cat gemfile_for_sidekiq)
 echo $(pwd)
 echo "form current"
 echo $(ls)
-bundle package && bundle install --gemfile gemfile_for_sidekiq --local #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle package && bundle install --gemfile gemfile_for_sidekiq #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0
