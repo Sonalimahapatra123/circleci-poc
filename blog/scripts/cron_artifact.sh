@@ -24,5 +24,7 @@ echo $(cat Gemfile)
 echo $(pwd)
 echo "form current"
 echo $(ls)
-bundle package && bundle install --no-cache --gemfile ../circleci-poc-cron/Gemfile #&& whenever --update-crontab --set environment=development
+echo $(cat Gemfile)
+
+bundle package && bundle install --gemfile Gemfile #&& whenever --update-crontab --set environment=development
 exit 0
