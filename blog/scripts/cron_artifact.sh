@@ -6,7 +6,7 @@ cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-cron
 
 #For cron
 cd circleci-poc-cron && rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_unicorn gemfile_for_sidekiq
-mv gemfile_for_cron Gemfile
+#mv gemfile_for_cron Gemfile
 
 # sidekiq related files to delete
 cd app && rm -rf !(models)
@@ -19,5 +19,5 @@ echo $(ls)
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
 echo "present dir"
 echo $(pwd)
-bundle package && bundle install --local #&& whenever --update-crontab --set environment=development
+bundle package && bundle install --gemfile gemfile_for_cron --local #&& whenever --update-crontab --set environment=development
 exit 0

@@ -6,14 +6,14 @@ cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-sidekiq
 
 #For sidekiq related files 
 cd circleci-poc-sidekiq && rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_unicorn gemfile_for_cron
-mv gemfile_for_sidekiq Gemfile
+#mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
-echo $(cat Gemfile)
+echo $(cat gemfile_for_sidekiq)
 echo $(pwd)
 echo "form current"
 echo $(ls)
-bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle package && bundle install --gemfile gemfile_for_sidekiq --local #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0
