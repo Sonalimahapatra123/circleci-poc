@@ -22,9 +22,9 @@ phases:
       - ./blog/scripts/unicorn_artifact.sh
       - ./blog/scripts/sidekiq_artifact.sh
       - ./blog/scripts/cron_artifact.sh
-      - $unicorn_artifactname=$(echo $unicorn_artifactname.$buildID.$srcVer.$timestamp)
-      - $sidekiq_artifactname=$(echo $sidekiq_artifactname.$buildID.$srcVer.$timestamp)
-      - $cron_artifactname=$(echo $cron_artifactname.$buildID.$srcVer.$timestamp) 
+      - unicorn_artifactname=$(echo $unicorn_artifactname.$buildID.$srcVer.$timestamp)
+      - sidekiq_artifactname=$(echo $sidekiq_artifactname.$buildID.$srcVer.$timestamp)
+      - cron_artifactname=$(echo $cron_artifactname.$buildID.$srcVer.$timestamp) 
       - tar -zcvf $unicorn_artifactname circleci-poc-unicorn/*
       - tar -zcvf $sidekiq_artifactname circleci-poc-sidekiq/*
       - tar -zcvf $cron_artifactname circleci-poc-cron/*
