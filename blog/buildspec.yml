@@ -1,9 +1,9 @@
 version: 0.2
 env:
   variables:
-    unicorn_artifactname: "cync_ror_unicorn"
-    cron_artifactname: "cync_ror_cron"
-    sidekiq_artifactname: "cync_ror_sidekiq"
+    unicorn_artifactname: "cync_ror_unicorn_"
+    cron_artifactname: "cync_ror_cron_"
+    sidekiq_artifactname: "cync_ror_sidekiq_"
 
 phases:
   install:
@@ -16,9 +16,15 @@ phases:
     commands:
       - echo Build started on `date`
       - echo `pwd`
+      - timestamp=$(date -u '+%Y-%m-%d_%H-%M-%S_%Z')
+      - buildID=$(echo $CODEBUILD_BUILD_ID | awk -F':' '{print $2}')
+      - srcVer=$CODEBUILD_SOURCE_VERSION      
       - ./blog/scripts/unicorn_artifact.sh
       - ./blog/scripts/sidekiq_artifact.sh
       - ./blog/scripts/cron_artifact.sh
+      - $unicorn_artifactname=$(echo $unicorn_artifactname.$buildID.$srcVer.$timestamp)
+      - $sidekiq_artifactname=$(echo $sidekiq_artifactname.$buildID.$srcVer.$timestamp)
+      - $cron_artifactname=$(echo $cron_artifactname.$buildID.$srcVer.$timestamp) 
       - tar -zcvf $unicorn_artifactname circleci-poc-unicorn/*
       - tar -zcvf $sidekiq_artifactname circleci-poc-sidekiq/*
       - tar -zcvf $cron_artifactname circleci-poc-cron/*
