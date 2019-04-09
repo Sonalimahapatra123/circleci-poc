@@ -17,5 +17,7 @@ cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
 echo "cron gem file"
 echo $(cat Gemfile)
+echo $(pwd)
+echo $(ls)
 bundle package && bundle install --gemfile Gemfile #&& whenever --update-crontab --set environment=development
 exit 0
