@@ -1,9 +1,9 @@
 version: 0.2
 env:
   variables:
-    unicorn_artifactname: "cync_ror_unicorn_"
-    cron_artifactname: "cync_ror_cron_"
-    sidekiq_artifactname: "cync_ror_sidekiq_"
+    unicorn_artifactname: "cync_ror_unicorn"
+    cron_artifactname: "cync_ror_cron"
+    sidekiq_artifactname: "cync_ror_sidekiq"
 
 phases:
   install:
