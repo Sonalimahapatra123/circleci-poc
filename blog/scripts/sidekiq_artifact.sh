@@ -4,8 +4,14 @@ set -e
 # rm -rf circleci-poc-unicorn && rm -rf circleci-poc-sidekiq && rm -rf circleci-poc-cron
 cp -r $CODEBUILD_SRC_DIR/blog circleci-poc-sidekiq
 
-#For sidekiq related files 
-cd circleci-poc-sidekiq && rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_unicorn gemfile_for_cron
+#For sidekiq related files
+echo "list of files"
+ 
+cd circleci-poc-sidekiq
+echo $(ls)
+rm -rf Gemfile Gemfile.lock vendor/* gemfile_for_unicorn gemfile_for_cron
+echo "after removal"
+echo $(ls)
 #mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
