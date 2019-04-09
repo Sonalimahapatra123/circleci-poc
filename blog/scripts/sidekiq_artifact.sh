@@ -15,7 +15,7 @@ echo $(ls)
 #mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
-rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
+rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|gemfile_for_sidekiq)
 echo "gem file content "
 echo "current direc tory"
 echo $(pwd)
