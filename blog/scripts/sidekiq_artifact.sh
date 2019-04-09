@@ -12,5 +12,5 @@ mv gemfile_for_sidekiq Gemfile
 cd app && rm -rf !(workers|models)
 cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
-bundle package && bundle install --gemfile Gemfile #&& bundle exec sidekiq -d -L log/sidekiq.log
+bundle install --gemfile Gemfile && bundle package  #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0
