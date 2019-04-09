@@ -15,9 +15,5 @@ rm -r config/initializers
 cd config && rm -rf !(environments|application.rb|boot.rb|schedule.rb|database.yml|environment.rb)
 cd ../
 rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor|lib|Rakefile)
-echo "cron gem file"
-echo $(cat Gemfile)
-echo $(pwd)
-echo $(ls)
-bundle package && bundle install --gemfile Gemfile #&& whenever --update-crontab --set environment=development
+bundle install --gemfile Gemfile && bundle package && #&& whenever --update-crontab --set environment=development
 exit 0
