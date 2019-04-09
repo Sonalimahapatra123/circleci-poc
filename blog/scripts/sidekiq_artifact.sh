@@ -13,6 +13,7 @@ rm -rf !(bin|app|Gemfile|config|db|log|scripts|vendor)
 echo "gem file content "
 echo $(cat Gemfile)
 echo $(pwd)
-
-bundle package && bundle install --local --gemfile ../circleci-poc-sidekiq/Gemfile #&& bundle exec sidekiq -d -L log/sidekiq.log
+echo "form current"
+echo $(ls)
+bundle package && bundle install --local #&& bundle exec sidekiq -d -L log/sidekiq.log
 exit 0
